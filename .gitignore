@@ -33,3 +33,8 @@ examples/**/audio/
 examples/**/video/
 examples/**/jieba.cache
 *.cache
+
+# 无头 Chromium 的临时 profile（TMP 指错时会落在产物目录里）
+HeadlessChrome*/
+examples/**/HeadlessChrome*/
+**/chrome-profile/

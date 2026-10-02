@@ -64,10 +64,21 @@
     "ngramMinCount": 8
   },
   "pdf": {
+    "style": "magazine",
+    "_styleHelp": "magazine=杂志风（默认：生成 magazine.html 再用无头 Chromium 打印，版式保真）；markdown=回退走 lov-any2pdf 的 md2pdf.py",
+    "output": null,
+    "chrome": null,
+    "chromeArgs": [],
+    "magazineStrict": false,
+    "_chromeHelp": "chrome 留空自动探测（Playwright 自带 / PATH / VD_CHROME）；magazineStrict=true 时找不到浏览器直接失败，不回退 markdown",
     "theme": "warm-academic",
     "toc": 1,
     "md2pdf": null,
-    "_md2pdfHelp": "留空则自动探测 lov-any2pdf 技能里的 scripts/md2pdf.py（也可用环境变量 VD_MD2PDF）"
+    "_md2pdfHelp": "仅 markdown 风格用到：留空则自动探测 lov-any2pdf 技能里的 scripts/md2pdf.py（也可用环境变量 VD_MD2PDF）"
+  },
+  "magazine": {
+    "_help": "杂志风（默认样式）的少量开关；标题句/结论/清单等文案写在 content/magazine-copy.json，见 references/杂志文案.md",
+    "output": "magazine.html"
   },
   "verify": {
     "_help": "全部可省略，省略即用脚本顶部默认值。短视频/小样本要相应调低下限",

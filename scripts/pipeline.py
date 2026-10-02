@@ -84,19 +84,24 @@ STAGES: dict[str, dict] = {
         "produces": [],
     },
     "report": {
-        "desc": "写主报告（你亲自写，照 references/报告模板.md）",
+        "desc": "写报告：杂志版文案 + Markdown 数据报告（你亲自写）",
         "manual": True,
         "produces": [],
     },
+    "magazine": {
+        "desc": "渲染杂志版 magazine.html（默认样式：数据自动填 + 你的文案）",
+        "cmd": [PY, str(HERE / "make_magazine.py")],
+        "produces": ["magazine.html"],
+    },
     "pdf": {
-        "desc": "转 PDF（复用 lov-any2pdf 的 md2pdf.py）",
+        "desc": "转 PDF（默认杂志风：magazine.html → 无头 Chromium 打印）",
         "cmd": [PY, str(HERE / "make_pdf.py")],
         "produces": [],
     },
 }
 
 ORDER = ["collect", "asr", "slices", "outline", "merge", "corrections", "clean",
-         "stats", "slides", "verify", "report", "pdf"]
+         "stats", "slides", "verify", "report", "magazine", "pdf"]
 
 
 def hr(title: str) -> None:
@@ -116,12 +121,15 @@ def manual_block(name: str, cfg) -> None:
    只回一行 `DONE <file> n=<条数>`；不要让大 JSON 走返回值通道（会静默截断）
 4. 全部回来后再跑：python pipeline.py --stages merge""")
     elif name == "report":
-        print(f"""报告要你亲自写（脚本不知道什么值得说）。做法：
+        print(f"""报告要你亲自写（脚本不知道什么值得说）。两份，别混：
 
-1. 结构照 {SKILL / 'references' / '报告模板.md'}
-2. 口径照 {SKILL / 'references' / '口径模板.md'} 写进 {cfg.root / 'README.md'}
-3. 文件名：报告-<视频标题>-数据与内容.md（pdf 阶段会自动找它）
-4. 写完跑：python pipeline.py --stages pdf""")
+1) 杂志版文案（**默认样式**，给人看的那份）：写 {cfg.path('content') / 'magazine-copy.json'}
+   —— 标题句、导语、一句话结论、清单、引用块。字段见 {SKILL / 'references' / '杂志文案.md'}
+   （数据部分由 make_magazine.py 自动填，不要在文案里硬编码数字）
+2) Markdown 数据报告（给口径看的）：结构照 {SKILL / 'references' / '报告模板.md'}，
+   口径写进 {cfg.root / 'README.md'}；文件名用 报告-<标题>.md（pdf 阶段会用它做回退输入）
+
+写完跑：python pipeline.py --stages magazine,pdf""")
     print()
 
 

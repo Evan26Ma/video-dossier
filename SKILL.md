@@ -61,8 +61,9 @@ python <skill>/scripts/pipeline.py --stages collect,asr,slices,stats,verify
 | `stats` | `build_stats.py` | `stats/language-stats.json` + ≥4 张图 |
 | `slides` | `extract_slides.py --stage all` | `slides/ocr-quality.json` 有 `verdict`；`slides.jsonl` 行数 == `ocrPages` |
 | `verify` | `verify.py` | 全部断言 PASS、退出码 0 |
-| `report` | 你写（照 `references/报告模板.md`） | 报告里每个读数都能在产物里找到出处 |
-| `pdf` | `make_pdf.py` | PDF 生成、能打开、页数 > 1 |
+| `magazine` | `make_magazine.py`（通常由 pdf 阶段带起） | 生成 `magazine.html`；章节数 ≥3、图表挂上 |
+| `report` | 你写 `报告-*.md` + `content/magazine-copy.json` | 报告里每个读数都能在产物里找到出处；杂志文案见 `references/杂志文案.md` |
+| `pdf` | `make_pdf.py` | **默认杂志风**：magazine.html → 无头 Chromium 打印；PDF 生成、能打开、页数 > 1 |
 
 ## 三、派子代理（唯一必须你亲自做的阶段）
 
@@ -74,21 +75,28 @@ python <skill>/scripts/pipeline.py --stages collect,asr,slices,stats,verify
 
 **完成判据**：`merge_outline.py` 输出 `problems=[]`，覆盖率与首末跨度都 ≥0.9，`gapAlertCount` 为 0。出现空档就要逐个读窗口核查，不许当没看见（空档可能是代理漏标，也可能是老师在放视频）。
 
-## 四、写报告与出 PDF
+## 四、写报告与出 PDF（默认杂志风）
 
-报告结构照 `references/报告模板.md`，口径照 `references/口径模板.md`。写完：
+报告分两份，别混：
+
+1. **杂志版 HTML → PDF**（默认样式，给人看的）：数据由脚本自动填，你只需要写**文案**——标题句、导语、一句话结论、清单、引用块，写进 `content/magazine-copy.json`（字段见 `references/杂志文案.md`）。
+2. **Markdown 数据报告**（给口径看的）：结构照 `references/报告模板.md`，口径照 `references/口径模板.md`。
 
 ```bash
-python <skill>/scripts/make_pdf.py     # 复用 lov-any2pdf 的 md2pdf.py
+python <skill>/scripts/make_magazine.py    # 数据 + 文案 → magazine.html
+python <skill>/scripts/make_pdf.py         # 默认：magazine.html → 无头 Chromium 打印 PDF
 ```
 
-**完成判据**：PDF 能打开且目录可跳转；报告里每个数字都能在 `stats/`、`content/`、`slides/` 里指到文件与字段；口径章节覆盖「不可得清单」。
+`make_pdf.py` 的默认风格就是杂志风（`pdf.style = "magazine"`）。找不到 Chromium 时会提示并回退到 markdown 路线；想强制只用杂志风就设 `pdf.magazineStrict = true`。**这套版式（衬线大标题、大数字、占比条、深色结论块、A4 分页规则）只有浏览器引擎能还原，Markdown 转换器做不到。**
+
+**完成判据**：`magazine.html` 章节 ≥3 且图表挂上；PDF 能打开、页数 > 1、深色块与红色占比条**印出来了**（不是黑白线条——那是丢了背景色，检查 `print-color-adjust`）；两份报告里每个数字都能在 `stats/`、`content/`、`slides/` 里指到文件与字段；口径章节覆盖「不可得清单」。
 
 ## 五、按需读的参考
 
 | 你要做什么 | 读 |
 |---|---|
 | 写统计口径（含不可得清单） | `references/口径模板.md` |
+| 写杂志版文案（默认样式） | `references/杂志文案.md` |
 | 采集平台数据、搞清哪些指标拿不到 | `references/平台采集.md` |
 | 派子代理做大纲 / 写任务书 | `references/子代理任务书.md` |
 | 抽帧、去重、OCR、屏幕状态聚合 | `references/画面层.md` |

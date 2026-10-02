@@ -15,6 +15,10 @@ python ../../scripts/build_corrections.py --config config.json
 python ../../scripts/build_clean.py      --config config.json
 python ../../scripts/build_stats.py      --config config.json
 python ../../scripts/verify.py           --config config.json
+
+# 默认样式：杂志版 HTML → 无头 Chromium 打印 PDF
+python ../../scripts/make_magazine.py    --config config.json
+python ../../scripts/make_pdf.py         --config config.json
 ```
 
 期望看到的读数：
@@ -26,6 +30,10 @@ python ../../scripts/verify.py           --config config.json
 | `build_clean` | `conserved=True`，`delta=0` |
 | `build_stats` | 输出 `stats/language-stats.json` 与 4 张图 |
 | `verify` | **PASS 43 / FAIL 0 / SKIP 5**（平台、屏幕、仓库三组按配置跳过，不算失败） |
+| `make_magazine` | `magazine.html`，4 个章节、4 张图 |
+| `make_pdf` | `magazine.pdf`（页数 > 1；深色结论块与红色占比条要印出来） |
+
+`magazine.pdf` 就是仓库里那份可以直接点开看的样例——默认样式的观感看它最快。
 
 ## 这个示例刻意演示的几件事
 
@@ -54,7 +62,10 @@ examples/minimal/
 │   ├─ _outline/slice-01.json      子代理该产出的结构
 │   ├─ _terms/slice-01.json        子代理清点出的错字线索
 │   ├─ corrections-decisions.json  人工裁决（reject / override / phraseRules）
+│   ├─ magazine-copy.json          杂志版文案（标题句 / 结论 / 清单）—— 数据由脚本填
 │   ├─ outline.json / .md / -points.csv
 │   └─ corrections.jsonl
-└─ stats/                          语言统计、逐分钟 CSV、词频 CSV、4 张图
+├─ stats/                          语言统计、逐分钟 CSV、词频 CSV、4 张图
+├─ magazine.html                   默认样式（杂志风）的源文件
+└─ magazine.pdf                    默认样式的成品（点开就能看）
 ```

@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>最小示例 · 数据解读报告</title>
+<style>
+/* ============================================================
+   video-dossier · 杂志风样式（默认样式）
+   设计语言：暖纸底 + 朱红点缀 + 衬线大标题 + 大数字 + 占比条 + A4 打印分页
+   由 scripts/make_magazine.py 注入到生成的 magazine.html 里；
+   改这里就改了所有产物的观感，不要在渲染器里写内联样式。
+   ============================================================ */
+
+  :root{
+    --paper:#f4f1ea;
+    --paper-2:#eae5da;
+    --ink:#14110d;
+    --ink-2:#4a443b;
+    --ink-3:#7d756a;
+    --red:#c8352a;
+    --red-soft:#e8d9d4;
+    --blue:#1f4e6b;
+    --rule:#cfc7b8;
+    --sans:"Microsoft YaHei","PingFang SC","Noto Sans SC",system-ui,sans-serif;
+    --serif:"Source Han Serif SC","Noto Serif SC",SimSun,"Songti SC",serif;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0;background:var(--paper);color:var(--ink);
+    font-family:var(--sans);font-size:15px;line-height:1.75;
+    font-feature-settings:"palt";
+  }
+  .wrap{max-width:920px;margin:0 auto;padding:0 34px 90px}
+
+  /* ---------- 可点击的时间点 ---------- */
+  a.ts{
+    color:var(--red);text-decoration:none;white-space:nowrap;
+    background:var(--red-soft);border-radius:3px;padding:1px 6px 2px;
+    font-variant-numeric:tabular-nums;font-weight:600;
+    border-bottom:1px solid rgba(200,53,42,.35);
+  }
+  a.ts::before{content:"\25B8\00A0";font-weight:400;font-size:.92em}
+  a.ts:hover{background:#e0c8c2}
+  .tshint{
+    background:var(--ink);color:#f4f1ea;border-radius:3px;padding:12px 16px;
+    font-size:13px;line-height:1.7;margin:0 0 22px;
+  }
+  .tshint b{color:#ffd9a8}
+  .tshint a.ts{background:rgba(255,217,168,.16);color:#ffd9a8;border-bottom-color:rgba(255,217,168,.4)}
+
+  header.flag{
+    border-bottom:3px solid var(--ink);
+    padding:26px 0 12px;margin-bottom:0;
+    display:flex;align-items:flex-end;justify-content:space-between;gap:20px;
+  }
+  .flag .logo{font-family:var(--serif);font-weight:700;font-size:27px;letter-spacing:.14em;line-height:1}
+  .flag .logo em{font-style:normal;color:var(--red)}
+  .flag .meta{text-align:right;font-size:11.5px;color:var(--ink-3);letter-spacing:.06em;line-height:1.9}
+  .flag .meta b{color:var(--ink);font-weight:600}
+
+  .deck{
+    display:flex;justify-content:space-between;align-items:center;
+    border-bottom:1px solid var(--rule);padding:9px 0 10px;margin-bottom:34px;
+    font-size:11.5px;letter-spacing:.22em;color:var(--ink-3);
+  }
+  .deck span:nth-child(2){color:var(--red);letter-spacing:.1em}
+
+  .kicker{
+    font-size:11.5px;letter-spacing:.28em;color:var(--red);font-weight:700;
+    display:flex;align-items:center;gap:12px;margin-bottom:16px;
+  }
+  .kicker::after{content:"";flex:1;height:1px;background:var(--rule)}
+
+  h2.big{font-family:var(--serif);font-weight:700;font-size:34px;line-height:1.35;margin:0 0 18px;letter-spacing:.01em}
+  h2.big em{font-style:normal;color:var(--red)}
+  h3.sub{font-size:15px;font-weight:700;margin:38px 0 12px;letter-spacing:.04em;padding-left:11px;border-left:4px solid var(--red);line-height:1.4}
+  p{margin:0 0 14px;color:var(--ink-2)}
+  p strong{color:var(--ink);font-weight:700}
+  .lead{font-size:16.5px;line-height:1.95;color:var(--ink-2)}
+
+  .hero{padding:6px 0 40px;border-bottom:3px solid var(--ink);margin-bottom:42px}
+  .hero .over{font-size:12.5px;letter-spacing:.32em;color:var(--ink-3);margin-bottom:22px}
+  .coverphoto{width:100%;display:block;border-radius:3px;border:1px solid var(--rule);margin:0 0 26px}
+  .bignums{display:flex;flex-wrap:wrap;gap:0;margin:0 0 30px}
+  .bignum{flex:1 1 0;min-width:170px;padding:0 20px 0 0;border-right:1px solid var(--rule)}
+  .bignum:last-child{border-right:0;padding-right:0}
+  .bignum + .bignum{padding-left:20px}
+  .bignum .n{font-family:var(--serif);font-weight:700;font-size:66px;line-height:.94;letter-spacing:-.02em;color:var(--ink);display:block}
+  .bignum .n small{font-size:42%;font-weight:600;margin-left:3px;letter-spacing:0;vertical-align:.14em}
+  .bignum .n.hot{color:var(--red)}
+  .bignum .k{margin-top:12px;font-size:12.5px;letter-spacing:.06em;color:var(--ink-3)}
+  .bignum .k b{display:block;color:var(--ink);font-size:14px;letter-spacing:.02em;margin-bottom:3px}
+
+  .verdict{background:var(--ink);color:#f4f1ea;padding:24px 28px;border-radius:3px;font-size:15.5px;line-height:1.95}
+  .verdict > b{color:#ffd9a8;font-weight:700}
+  .verdict i{font-style:normal;color:#ffd9a8}
+  .verdict .tag{display:inline-block;font-size:11px;letter-spacing:.22em;color:#ffd9a8;border:1px solid rgba(255,217,168,.5);padding:2px 9px;margin-bottom:14px;border-radius:2px}
+  .verdict p{color:#e8e2d6;margin:0 0 10px}
+  .verdict p:last-child{margin-bottom:0}
+
+  .cards{display:flex;gap:14px;flex-wrap:wrap;margin:22px 0 6px}
+  .card{flex:1 1 190px;background:var(--paper-2);border-radius:3px;padding:16px 18px;border-top:3px solid var(--ink)}
+  .card.red{border-top-color:var(--red)}
+  .card .v{font-family:var(--serif);font-size:29px;font-weight:700;line-height:1.1;color:var(--ink)}
+  .card.red .v{color:var(--red)}
+  .card .l{font-size:12.5px;color:var(--ink-3);margin-top:6px;letter-spacing:.04em}
+  .card .l b{color:var(--ink-2);font-weight:700}
+
+  table{width:100%;border-collapse:collapse;margin:14px 0 8px;font-size:13.5px}
+  caption{caption-side:top;text-align:left;font-size:12px;color:var(--ink-3);letter-spacing:.05em;padding-bottom:8px}
+  th{text-align:left;font-weight:700;font-size:12px;letter-spacing:.08em;color:var(--ink-3);border-bottom:2px solid var(--ink);padding:8px 9px 7px;white-space:nowrap}
+  td{border-bottom:1px solid var(--rule);padding:9px 9px;color:var(--ink-2);vertical-align:middle}
+  tbody tr:last-child td{border-bottom:2px solid var(--ink)}
+  td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
+  td.name{color:var(--ink);font-weight:600}
+  .bar{position:relative;height:7px;background:var(--red-soft);border-radius:4px;min-width:60px}
+  .bar i{position:absolute;left:0;top:0;bottom:0;background:var(--red);border-radius:4px;display:block}
+  .hot{color:var(--red);font-weight:700}
+  .warn{color:#a8621a;font-weight:700}
+  .muted{color:var(--ink-3);font-size:12.5px}
+
+  .rhythm{padding:16px 0 6px;border-top:1px solid var(--rule)}
+  .rhythm .unit{display:flex;gap:0;margin-bottom:7px;align-items:center}
+  .rhythm .unit b{display:block;width:9px;height:9px;background:var(--red);border-radius:50%;margin-right:6px;flex:0 0 auto}
+  .rhythm .unit i{display:block;height:9px;background:var(--red-soft);border-radius:5px}
+  .rhythm .flexmax{max-width:560px}
+  .rhythmnote{font-size:12.5px;color:var(--ink-3);margin:2px 0 0}
+
+  blockquote{margin:22px 0;padding:16px 22px;border-left:5px solid var(--red);background:var(--paper-2);font-size:14.5px;color:var(--ink-2);border-radius:0 3px 3px 0}
+  blockquote b{color:var(--ink)}
+
+  .caveats{background:#fbf9f5;border:1px solid var(--rule);border-radius:3px;padding:6px 24px 18px;margin-top:20px}
+  .caveats ol{margin:12px 0 0;padding-left:22px}
+  .caveats li{margin-bottom:11px;color:var(--ink-2)}
+  .caveats li b{color:var(--ink)}
+
+  ul.tick{list-style:none;padding:0;margin:14px 0}
+  ul.tick li{position:relative;padding-left:22px;margin-bottom:9px;color:var(--ink-2)}
+  ul.tick li::before{content:"";position:absolute;left:2px;top:11px;width:7px;height:7px;background:var(--red);transform:rotate(45deg)}
+  ul.tick li b{color:var(--ink)}
+
+  .figs{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:20px 0 8px}
+  .fig{margin:0}
+  .fig img{width:100%;display:block;border:1px solid var(--rule);border-radius:3px;background:#fff}
+  .fig figcaption{font-size:11.5px;color:var(--ink-3);letter-spacing:.04em;margin-top:7px;line-height:1.6}
+  .fig.wide{grid-column:1 / -1}
+
+  footer{margin-top:56px;padding-top:18px;border-top:3px solid var(--ink);display:flex;justify-content:space-between;gap:18px;font-size:11.5px;color:var(--ink-3);letter-spacing:.06em}
+
+  .coverline{font-family:var(--serif);font-weight:700;font-size:48px;line-height:1.24;margin:0 0 30px;letter-spacing:.01em;color:var(--ink)}
+  .coverline span{color:var(--red);background:linear-gradient(transparent 68%,rgba(200,53,42,.16) 68%)}
+
+  .toc{margin-top:28px;border-top:1px solid var(--rule);padding-top:16px}
+  .toc-h{font-size:11.5px;letter-spacing:.28em;color:var(--ink-3);margin-bottom:10px}
+  .toc ol{list-style:none;margin:0;padding:0}
+  .toc li{display:flex;align-items:baseline;gap:14px;padding:7px 0;border-bottom:1px dotted var(--rule);font-size:14px}
+  .toc li .no{font-family:var(--serif);font-weight:700;color:var(--red);font-size:15px;min-width:26px}
+  .toc li .t{color:var(--ink);flex:1}
+  .toc li .p{color:var(--ink-3);font-size:12px;letter-spacing:.06em}
+
+  .watermark{
+    position:fixed;left:0;right:0;top:0;bottom:0;z-index:1;
+    display:flex;align-items:center;justify-content:center;pointer-events:none;
+  }
+  .watermark span{
+    font-family:var(--serif);font-weight:700;font-size:58px;letter-spacing:.30em;
+    color:rgba(200,53,42,.075);transform:rotate(-24deg);white-space:nowrap;
+  }
+
+  @page{size:A4;margin:13mm 14mm}
+  @media print{
+    :root{--paper:#fff}
+    /* print-color-adjust:exact 不能省：否则无头 Chromium 打印时会丢掉深色结论块、
+       占比条、红色高亮等背景色，出来的 PDF 会只剩黑白线条。 */
+    body{background:#fff;font-size:11.4pt;line-height:1.72;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+    .verdict,.bar i,.card,.tshint,.cards,.rhythm .unit i,.rhythm .unit b{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+    .wrap{max-width:none;padding:0}
+    .flag{padding-top:0}
+    .deck{margin-bottom:18px}
+    .coverline{font-size:27pt;margin-bottom:16pt}
+    .hero{margin-bottom:12pt;border-bottom:3px solid var(--ink)}
+    .coverphoto{margin-bottom:16pt}
+    .over{margin-bottom:12pt;font-size:10pt}
+    .bignums{margin-bottom:16pt}
+    h2.big{font-size:21pt;margin-bottom:11pt;page-break-after:avoid}
+    .kicker{page-break-after:avoid}
+    .bignum{min-width:0;padding:0 15px 0 0}
+    .bignum + .bignum{padding-left:15px}
+    .bignum .n{font-size:33pt}
+    .bignum .k{font-size:9.5pt;margin-top:8pt}
+    .bignum .k b{font-size:10.5pt}
+    .verdict{page-break-before:always;font-size:11pt;padding:16pt 18pt}
+    /* 内容量小的时候不强行分页（见 make_magazine.py 的篇幅自适应），否则会出现半页空白 */
+    .verdict.nobreak{page-break-before:auto}
+    .toc{margin-top:20pt}
+    .tshint{font-size:10pt;padding:9pt 12pt}
+    .section{margin-bottom:14pt}
+    .section + .section{margin-top:18pt}
+    table,.cards,.rhythm,.caveats,blockquote,.bignums,ul.tick li,.fig,.tshint{page-break-inside:avoid}
+    h3.sub{page-break-after:avoid}
+    caption{page-break-after:avoid}
+    footer{page-break-before:avoid}
+    .pagebreak{page-break-before:always}
+    .noprint{display:none}
+  }
+  @media (max-width:640px){
+    .wrap{padding:0 18px 60px}
+    .bignum{flex:1 1 100%;border-right:0;padding:0 0 18px;border-bottom:1px solid var(--rule)}
+    .bignum + .bignum{padding-left:0;padding-top:18px}
+    .bignum .n{font-size:52px}
+    h2.big{font-size:25px}
+    .flag{flex-direction:column;align-items:flex-start}
+    .flag .meta{text-align:left}
+    .figs{grid-template-columns:1fr}
+  }
+
+</style>
+</head>
+<body>
+<div class="watermark"><span>示例数据</span></div>
+<div class="wrap">
+
+  <header class="flag">
+    <div class="logo">示 例<em>·</em>01</div>
+    <div class="meta">
+<div>时长 00:02:00</div>
+    </div>
+  </header>
+
+  <div class="deck"><span>VOL.00</span><span>样 式 演 示</span><span>只统计，不评价</span></div>
+
+  <section class="hero">
+    <div class="over">总 览 · 一 眼 看 完</div>
+    
+    <h1 class="coverline">一场 120 秒的评审会，<span>被拆成了 2 个大段、4 个小点</span></h1>
+    <div class="bignums">
+<div class="bignum"><span class="n hot">70.8<small>%</small></span><div class="k"><b>正题</b>72 秒，占的时间最长</div></div>
+<div class="bignum"><span class="n">6</span><div class="k"><b>知识点条数</b>归到 2 个一级主题</div></div>
+<div class="bignum"><span class="n">163</span><div class="k"><b>说了多少汉字</b>分成 6 段</div></div>
+<div class="bignum"><span class="n">81.5</span><div class="k"><b>每分钟说多少字</b>人声占 84.6%</div></div>
+</div>
+    
+    <div class="verdict nobreak"><span class="tag">一 句 话 结 论</span><p>这是一份<b>合成数据</b>的最小示例，用来演示杂志风报告长什么样、以及「数据自动填 + 文案手写」怎么分工。</p><p>它跑通的是<b>非媒体阶段</b>：切片 → 大纲合并 → 纠错裁决 → 可读稿 → 统计 → 校验 → 出片。转写与抽帧认字需要真实音视频，见本目录 README。</p></div>
+    <div class="toc"><div class="toc-h">本 期 目 录</div><ol><li><span class="no">01</span><span class="t">120 秒里，过了三个模块</span></li><li><span class="no">02</span><span class="t">样本很小，但每条都算得出</span></li><li><span class="no">03</span><span class="t">纠错为什么要拦一道</span></li><li><span class="no">04</span><span class="t">把示例换成你的视频</span></li></ol></div>
+  </section>
+
+<section class="section">
+  <div class="kicker">01 · 讲 了 什 么</div>
+  <h2 class="big">120 秒里，<em>过了三个模块</em></h2>
+<p class="lead">按「在干什么」把这段话切开，归到类型里。示例只有 2 个主题，但表格、占比条、时间线都是<strong>从大纲数据里现算的</strong>——真实长视频只是行数更多。</p>
+<table>
+<caption>各类内容各占多久（合计 102s ≈ 00:01:42）</caption>
+<thead><tr><th>在干什么</th><th class="num">#时长</th><th class="num">#占比</th><th>占比条</th></tr></thead><tbody>
+<tr><td class="name">正题</td><td class="num">72s</td><td class="num hot">70.8%</td><td><div class="bar"><i style="width:71%"></i></div></td></tr>
+<tr><td class="name">开场</td><td class="num">30s</td><td class="num">29.2%</td><td><div class="bar"><i style="width:29%"></i></div></td></tr>
+</tbody></table>
+<h3 class="sub">整场的时间线</h3>
+<table>
+<caption>主干时间线（时间可点，会跳到那一秒）</caption>
+<thead><tr><th>从</th><th>到</th><th class="num">#多久</th><th>在干什么</th><th>内容</th></tr></thead><tbody>
+<tr><td><span class="tstext">00:00:06</span></td><td><span class="tstext">00:00:36</span></td><td class="num">30s</td><td>开场</td><td>评审范围与登录模块</td></tr>
+<tr><td><span class="tstext">00:00:36</span></td><td><span class="tstext">00:01:48</span></td><td class="num">72s</td><td>正题</td><td>订单与结算模块的改动与风险</td></tr>
+</tbody></table>
+<h3 class="sub">花时间最多的几段</h3>
+<table>
+<caption>单段最长的六块</caption>
+<thead><tr><th>点了直接看</th><th class="num">#多久</th><th>在干什么</th></tr></thead><tbody>
+<tr><td><span class="tstext">订单与结算模块的改动与风险</span></td><td class="num">72s</td><td>正题</td></tr>
+<tr><td><span class="tstext">评审范围与登录模块</span></td><td class="num">30s</td><td>开场</td></tr>
+</tbody></table>
+<h3 class="sub">讲到的要点</h3>
+<ul class="tick">
+  <li><b>数据不写死在模板里：</b>表格里的每一行都来自 <code>content/outline.json</code>，改数据不用改模板。</li>
+  <li><b>文案单独写：</b>这个文件（<code>content/magazine-copy.json</code>）里的句子才是手写的。</li>
+</ul>
+<blockquote><b>举个例子（大纲里的一段）：</b>「评审范围与登录模块」在 <span class="tstext">00:00:06</span>–00:00:36（30 秒，2 个点）：<br>　<span class="tstext">00:00:06</span> 本次评审范围只有登录、订单、结算三个模块　<span class="tstext">00:00:18</span> 登录模块会议纪要已发群，要求未读者补齐</blockquote>
+</section>
+<section class="section">
+  <div class="kicker">02 · 说 话 统 计</div>
+  <h2 class="big">样本很小，<em>但每条都算得出</em></h2>
+<p class="lead">字数、语速、停顿、提问句、词频、口头禅、领域词命中 —— 示例里数字都很小，但口径与真实长视频完全一样。</p>
+<table>
+<caption>说话与节奏（主数字用原始听写稿）</caption>
+<thead><tr><th>看什么</th><th class="num">#数字</th><th>说明</th></tr></thead><tbody>
+<tr><td class="name">分成多少段</td><td class="num">6 段</td><td>全片 00:02:00</td></tr>
+<tr><td class="name">总字数（含标点）</td><td class="num">181</td><td></td></tr>
+<tr><td class="name">汉字</td><td class="num hot">163</td><td></td></tr>
+<tr><td class="name">说得多快</td><td class="num hot">81.5 字/分钟</td><td></td></tr>
+<tr><td class="name">有人说话的时间</td><td class="num">101.5s</td><td>占 <b>84.6%</b></td></tr>
+<tr><td class="name">第一句话在第几秒</td><td class="num">6.2s</td><td><span class="tstext">跳到第一句话</span></td></tr>
+<tr><td class="name">停顿超过阈值次数</td><td class="num">1 次</td><td>1.5-3 1 次、3-10 0 次、10-30 0 次、&gt;=30 0 次</td></tr>
+<tr><td class="name">最长的一次停顿</td><td class="num hot">1.9s</td><td>在 <span class="tstext">00:00:36</span> 前后</td></tr>
+<tr><td class="name">提问句</td><td class="num">0 次</td><td>平均每分钟 0.00 次</td></tr>
+</tbody></table>
+<div class="figs">
+<figure class="fig"><img src="stats/figures/01-逐分钟语速.png" alt="01-逐分钟语速"><figcaption>图 1 · 01-逐分钟语速</figcaption></figure>
+<figure class="fig"><img src="stats/figures/02-累计字数.png" alt="02-累计字数"><figcaption>图 2 · 02-累计字数</figcaption></figure>
+<figure class="fig"><img src="stats/figures/03-停顿与段长.png" alt="03-停顿与段长"><figcaption>图 3 · 03-停顿与段长</figcaption></figure>
+<figure class="fig"><img src="stats/figures/04-人声占比.png" alt="04-人声占比"><figcaption>图 4 · 04-人声占比</figcaption></figure>
+</div>
+<h3 class="sub">最常说的词</h3>
+<div class="rhythm"><div class="flexmax">
+<div class="unit"><b></b><i style="width:100%;min-width:6px"></i><span style="font-size:12.5px;color:var(--ink-2);white-space:nowrap">&nbsp;模块 5 次</span></div>
+<div class="unit"><b></b><i style="width:60%;min-width:6px"></i><span style="font-size:12.5px;color:var(--ink-2);white-space:nowrap">&nbsp;这次 3 次</span></div>
+<div class="unit"><b></b><i style="width:40%;min-width:6px"></i><span style="font-size:12.5px;color:var(--ink-2);white-space:nowrap">&nbsp;一下 2 次</span></div>
+<div class="unit"><b></b><i style="width:40%;min-width:6px"></i><span style="font-size:12.5px;color:var(--ink-2);white-space:nowrap">&nbsp;三个 2 次</span></div>
+<div class="unit"><b></b><i style="width:40%;min-width:6px"></i><span style="font-size:12.5px;color:var(--ink-2);white-space:nowrap">&nbsp;登录 2 次</span></div>
+<div class="unit"><b></b><i style="width:40%;min-width:6px"></i><span style="font-size:12.5px;color:var(--ink-2);white-space:nowrap">&nbsp;订单 2 次</span></div>
+<div class="unit"><b></b><i style="width:40%;min-width:6px"></i><span style="font-size:12.5px;color:var(--ink-2);white-space:nowrap">&nbsp;结算 2 次</span></div>
+<div class="unit"><b></b><i style="width:40%;min-width:6px"></i><span style="font-size:12.5px;color:var(--ink-2);white-space:nowrap">&nbsp;重复 2 次</span></div>
+<div class="unit"><b></b><i style="width:40%;min-width:6px"></i><span style="font-size:12.5px;color:var(--ink-2);white-space:nowrap">&nbsp;下单 2 次</span></div>
+<div class="unit"><b></b><i style="width:40%;min-width:6px"></i><span style="font-size:12.5px;color:var(--ink-2);white-space:nowrap">&nbsp;下周 2 次</span></div>
+</div>
+<p class="rhythmnote">统计去掉了虚词，完整榜单见 <code>stats/top-words.csv</code>。</p>
+</div>
+<h3 class="sub">口头禅</h3>
+<table>
+<caption>连着说的固定词组，按出现次数排</caption>
+<thead><tr><th>口头禅</th><th class="num">#次数</th><th>口头禅</th><th class="num">#次数</th></tr></thead><tbody>
+<tr><td class="name">模块</td><td class="num">5</td><td class="name">一个是</td><td class="num">2</td></tr>
+<tr><td class="name">这次</td><td class="num">3</td><td class="name">一下</td><td class="num">2</td></tr>
+<tr><td class="name">三个模块</td><td class="num">2</td><td class="name">登录</td><td class="num">2</td></tr>
+<tr><td class="name">重复下单</td><td class="num">2</td><td class="name">订单</td><td class="num">2</td></tr>
+<tr><td class="name">模块的</td><td class="num">2</td><td class="name">结算</td><td class="num">2</td></tr>
+</tbody></table>
+<blockquote><b>口径提醒：</b>统计只用原始转写。修正稿与屏幕认字结果<b>都不参与统计</b>。</blockquote>
+<table>
+<caption>压掉识别复读伪影前后，数字差多少</caption>
+<thead><tr><th>怎么数</th><th class="num">#汉字</th><th class="num">#字母数字</th><th class="num">#字/分钟</th></tr></thead><tbody>
+<tr><td class="name">原始稿（<b>报告用的是这个</b>）</td><td class="num hot">163</td><td class="num">0</td><td class="num hot">81.50</td></tr>
+<tr><td class="name">压掉重复后（仅作对照）</td><td class="num">163</td><td class="num">0</td><td class="num">81.50</td></tr>
+</tbody></table>
+</section>
+<section class="section">
+  <div class="kicker">03 · 怎 么 算 的</div>
+  <h2 class="big">纠错为什么要<em>拦一道</em></h2>
+<p class="lead">示例里埋了一个「真词陷阱」：<code>评审→评议</code> 看着像错字，但「评审」本身就是正常词，所以被自动拒绝。</p>
+<h3 class="sub">机器听写会重复</h3>
+<p>原始稿里有 <b>0 段</b>出现同一串被重复写成一大串，共移除 0 字。压掉重复后再数一遍，语音密度只差 <b>0.0%</b>，所以主数字仍用原始稿。</p>
+<h3 class="sub">听写错字是怎么改的（以及哪些没改）</h3>
+<ul class="tick">
+  <li>先用子代理逐段清点可疑错字，再用词典筛一遍。</li>
+  <li>拿汉语词典查：<b>错串本身不是词 → 采纳；本身是正常词 → 保守不改</b>，除非逐条给出理由。</li>
+  <li>最终采纳 <b>1</b> 条、拒绝 <b>1</b> 条（1 处未改）。</li>
+  <li>校验：改完字数变化 <b>0</b>，与预期 <b>0</b> 完全一致（只换字、没删改）—— 长度守恒：通过。</li>
+  <li>这份修正稿只给人读，<b>不参与任何统计</b>。</li>
+</ul>
+<table>
+<caption>几个「看着像错、其实不该改」的例子</caption>
+<thead><tr><th>本来想改成</th><th>结论</th><th>为什么</th></tr></thead><tbody>
+<tr><td class="name">评审 → 评议</td><td class="warn">不改</td><td>示例：评审在本文里就是正确用词，明确拒绝替换为「评议」</td></tr>
+</tbody></table>
+<p class="muted">改动最多的几处：<code>记要→纪要</code> 1 次</p>
+<ul class="tick">
+  <li>规则：错串<b>不是词典词</b> → 自动采纳；<b>是词典词</b> → 默认拒绝，除非逐条给出理由。</li>
+  <li>改完做<b>长度守恒校验</b>：字数变化必须等于「替换次数 × 每个串的长度差」，否则说明发生了预期外的改写。</li>
+  <li>被拒绝的条目也写进 <code>content/corrections.jsonl</code>，附理由——「为什么没改」和「改了什么」一样重要。</li>
+</ul>
+</section>
+<section class="section">
+  <div class="kicker">04 · 用 法</div>
+  <h2 class="big">把示例<em>换成你的视频</em></h2>
+<h3 class="sub">已经能直接做的一些数据调查</h3>
+<table>
+<caption>想接着往下挖的话，每个问题该翻哪个文件</caption>
+<thead><tr><th>想问的问题</th><th>去哪找数据</th></tr></thead><tbody>
+<tr><td>想跑真实视频</td><td>改 <code>config.json</code> 的 <code>media</code>（BV 号或本地文件），然后 <code>python pipeline.py --stages all</code></td></tr>
+<tr><td>想知道每个数字怎么算的</td><td><code>references/口径模板.md</code></td></tr>
+</tbody></table>
+<h3 class="sub">这些事它做不了</h3>
+<ul class="tick">
+  <li><b>示例不能验证转写与认字</b> —— 那两步需要真实音视频。</li>
+  <li><b>示例数字没有意义</b> —— 120 秒合成数据，看流程不看结论。</li>
+</ul>
+<h3 class="sub">附 · 每个文件里是什么</h3>
+<div class="caveats"><ol><li><b><code>README.md</code></b> —— 统计口径与复现步骤</li><li><b><code>transcripts</code></b> —— 原始转写（所有统计的唯一依据）/ 逐字稿 / 修正稿</li><li><b><code>content/outline.json</code></b> —— 两级内容大纲（主题 + 知识点）</li><li><b><code>content/outline-points.csv</code></b> —— 知识点长表（Excel / pandas 直接开）</li><li><b><code>content/corrections.jsonl</code></b> —— 错字逐条记录与裁决结果</li><li><b><code>stats/language-stats.json</code></b> —— 说话、语速、停顿、词频全量</li><li><b><code>stats/per-minute.csv</code></b> —— 逐分钟序列</li><li><b><code>stats/top-words.csv</code></b> —— 词频与领域词命中</li><li><b><code>stats/figures</code></b> —— 报告里的图表</li><li><b><code>magazine.html</code></b> —— 本文件（杂志版报告）</li></ol></div>
+</section>
+
+  <footer>
+    <div>最小示例 · 数据解读报告</div><div>合成数据</div><div>只统计，不评价</div>
+  </footer>
+
+</div>
+</body>
+</html>

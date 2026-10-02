@@ -195,6 +195,7 @@ def main() -> int:
     print(f"阶段       : {', '.join(wanted)}")
 
     failed: list[str] = []
+    stopped_for_manual = False
     for name in wanted:
         if name in skip:
             print(f"[skip] {name}（--skip 指定）")
@@ -204,6 +205,7 @@ def main() -> int:
             manual_block(name, cfg)
             print("→ 完成上面这一步后，继续：python pipeline.py --stages "
                   + ",".join(ORDER[ORDER.index(name) + 1:]))
+            stopped_for_manual = True
             break
         rc = run_stage(name, cfg, args.dry_run)
         if rc != 0:
@@ -219,6 +221,10 @@ def main() -> int:
     if failed:
         print(f"失败阶段：{', '.join(failed)}")
         return 1
+    if stopped_for_manual:
+        # 这是「正常停下等人」，不是失败，所以退出码仍是 0
+        print("已在需要你介入的阶段停下——按上面的说明做完，再用给出的命令继续。")
+        return 0
     print("所选阶段全部完成。")
     return 0
 

@@ -1,0 +1,35 @@
+# 运行产物：这个仓库只放代码、文档、示例，实跑数据不要提交
+audio/
+video/
+transcripts/
+content/
+stats/
+slides/
+tmp/
+*.log
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+tools/pylibs/
+
+# 编辑器 / 系统
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# 保留示例与文档
+!examples/**
+!references/**
+!profiles/**
+!docs/**
+
+# 但示例目录里只留数据与产物，运行时垃圾一律不要
+examples/**/tmp/
+examples/**/audio/
+examples/**/video/
+examples/**/jieba.cache
+*.cache

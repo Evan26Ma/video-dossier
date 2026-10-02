@@ -1,0 +1,450 @@
+{
+  "generatedAt": "2026-10-03T07:23:33+08:00",
+  "basis": {
+    "raw": true,
+    "clean": false,
+    "ocr": false,
+    "note": "所有语言统计只使用 raw ASR；术语纠错稿与屏幕 OCR 文本一律不参与统计。"
+  },
+  "source": {
+    "transcript": "transcripts/example.json",
+    "profile": "generic",
+    "durationSeconds": 120.0,
+    "segmentCount": 6,
+    "language": "zh"
+  },
+  "chars": {
+    "han": 163,
+    "latinDigit": 0,
+    "punct": 18,
+    "withPunct": 181,
+    "withoutPunct": 163
+  },
+  "rate": {
+    "hanPerMin": 81.5,
+    "charsPerMin": 81.5
+  },
+  "speech": {
+    "speakingSeconds": 101.5,
+    "speakingRatio": 0.8458,
+    "silenceRatio": 0.1542,
+    "firstSpeechAtSeconds": 6.2,
+    "lastSpeechEndSeconds": 112.0
+  },
+  "pauses": {
+    "thresholdSeconds": 1.5,
+    "count": 1,
+    "buckets": {
+      "1.5-3": 1,
+      "3-10": 0,
+      "10-30": 0,
+      ">=30": 0
+    },
+    "totalPauseSeconds": 1.9,
+    "longest": {
+      "gap": 1.9,
+      "afterEnd": 34.1,
+      "beforeStart": 36.0
+    },
+    "top5": [
+      {
+        "gap": 1.9,
+        "afterEnd": 34.1,
+        "beforeStart": 36.0
+      }
+    ]
+  },
+  "questions": {
+    "count": 0,
+    "perMinute": 0.0,
+    "samples": [],
+    "caveat": "断句用 [,，。！？!?；;] 切分；本转写基本只有 ASCII 逗号，几乎没有中文句号，故按子句计。"
+  },
+  "repetitionArtifact": {
+    "detector": "同一 1–12 字短串连续重复 ≥4 次即折叠（逐 segment 处理，只用于对照）",
+    "segmentsAffected": 0,
+    "charsRemoved": 0,
+    "samples": [],
+    "sensitivity": {
+      "raw": {
+        "han": 163,
+        "latinDigit": 0,
+        "hanPerMin": 81.5
+      },
+      "collapsed": {
+        "han": 163,
+        "latinDigit": 0,
+        "hanPerMin": 81.5
+      },
+      "note": "主口径一律用 raw；collapsed 只用于说明 Whisper 复读伪影对读数的影响幅度。"
+    },
+    "topWordsCollapsed": [
+      {
+        "word": "模块",
+        "count": 5
+      },
+      {
+        "word": "这次",
+        "count": 3
+      },
+      {
+        "word": "一下",
+        "count": 2
+      },
+      {
+        "word": "三个",
+        "count": 2
+      },
+      {
+        "word": "登录",
+        "count": 2
+      },
+      {
+        "word": "订单",
+        "count": 2
+      },
+      {
+        "word": "结算",
+        "count": 2
+      },
+      {
+        "word": "重复",
+        "count": 2
+      },
+      {
+        "word": "下单",
+        "count": 2
+      },
+      {
+        "word": "下周",
+        "count": 2
+      },
+      {
+        "word": "先说",
+        "count": 1
+      },
+      {
+        "word": "评审",
+        "count": 1
+      },
+      {
+        "word": "范围",
+        "count": 1
+      },
+      {
+        "word": "记要",
+        "count": 1
+      },
+      {
+        "word": "已经",
+        "count": 1
+      },
+      {
+        "word": "发到",
+        "count": 1
+      },
+      {
+        "word": "群里",
+        "count": 1
+      },
+      {
+        "word": "麻烦",
+        "count": 1
+      },
+      {
+        "word": "改了",
+        "count": 1
+      },
+      {
+        "word": "两个",
+        "count": 1
+      },
+      {
+        "word": "校验",
+        "count": 1
+      },
+      {
+        "word": "超时",
+        "count": 1
+      },
+      {
+        "word": "取消",
+        "count": 1
+      },
+      {
+        "word": "上个月",
+        "count": 1
+      },
+      {
+        "word": "提过",
+        "count": 1
+      },
+      {
+        "word": "算是",
+        "count": 1
+      },
+      {
+        "word": "彻底",
+        "count": 1
+      },
+      {
+        "word": "修掉",
+        "count": 1
+      },
+      {
+        "word": "风险",
+        "count": 1
+      },
+      {
+        "word": "最大",
+        "count": 1
+      }
+    ]
+  },
+  "termHits": {
+    "categories": [],
+    "total": {},
+    "topTerms": {},
+    "caveat": "同类内最长词优先、不重复计数；跨类别可重复计；术语表见 profiles/generic.json 的 terms（config.video.profile=generic）。"
+  },
+  "wordFrequency": {
+    "mode": "jieba 0.42.1 精确模式 + 停用词 + 最小词长 2",
+    "top": [
+      {
+        "word": "模块",
+        "count": 5
+      },
+      {
+        "word": "这次",
+        "count": 3
+      },
+      {
+        "word": "一下",
+        "count": 2
+      },
+      {
+        "word": "三个",
+        "count": 2
+      },
+      {
+        "word": "登录",
+        "count": 2
+      },
+      {
+        "word": "订单",
+        "count": 2
+      },
+      {
+        "word": "结算",
+        "count": 2
+      },
+      {
+        "word": "重复",
+        "count": 2
+      },
+      {
+        "word": "下单",
+        "count": 2
+      },
+      {
+        "word": "下周",
+        "count": 2
+      },
+      {
+        "word": "先说",
+        "count": 1
+      },
+      {
+        "word": "评审",
+        "count": 1
+      },
+      {
+        "word": "范围",
+        "count": 1
+      },
+      {
+        "word": "记要",
+        "count": 1
+      },
+      {
+        "word": "已经",
+        "count": 1
+      },
+      {
+        "word": "发到",
+        "count": 1
+      },
+      {
+        "word": "群里",
+        "count": 1
+      },
+      {
+        "word": "麻烦",
+        "count": 1
+      },
+      {
+        "word": "改了",
+        "count": 1
+      },
+      {
+        "word": "两个",
+        "count": 1
+      },
+      {
+        "word": "校验",
+        "count": 1
+      },
+      {
+        "word": "超时",
+        "count": 1
+      },
+      {
+        "word": "取消",
+        "count": 1
+      },
+      {
+        "word": "上个月",
+        "count": 1
+      },
+      {
+        "word": "提过",
+        "count": 1
+      },
+      {
+        "word": "算是",
+        "count": 1
+      },
+      {
+        "word": "彻底",
+        "count": 1
+      },
+      {
+        "word": "修掉",
+        "count": 1
+      },
+      {
+        "word": "风险",
+        "count": 1
+      },
+      {
+        "word": "最大",
+        "count": 1
+      },
+      {
+        "word": "有关",
+        "count": 1
+      },
+      {
+        "word": "单独",
+        "count": 1
+      },
+      {
+        "word": "一轮",
+        "count": 1
+      },
+      {
+        "word": "回归",
+        "count": 1
+      },
+      {
+        "word": "测试",
+        "count": 1
+      },
+      {
+        "word": "最后",
+        "count": 1
+      },
+      {
+        "word": "一件",
+        "count": 1
+      },
+      {
+        "word": "之前",
+        "count": 1
+      },
+      {
+        "word": "文档",
+        "count": 1
+      },
+      {
+        "word": "补齐",
+        "count": 1
+      },
+      {
+        "word": "统一",
+        "count": 1
+      },
+      {
+        "word": "一遍",
+        "count": 1
+      }
+    ],
+    "stopwordCount": 178,
+    "stopwordsBuiltin": 178,
+    "stopwordsExtra": 0
+  },
+  "catchphrases": [
+    {
+      "ngram": "模块",
+      "count": 5
+    },
+    {
+      "ngram": "这次",
+      "count": 3
+    },
+    {
+      "ngram": "三个模块",
+      "count": 2
+    },
+    {
+      "ngram": "重复下单",
+      "count": 2
+    },
+    {
+      "ngram": "模块的",
+      "count": 2
+    },
+    {
+      "ngram": "一个是",
+      "count": 2
+    },
+    {
+      "ngram": "一下",
+      "count": 2
+    },
+    {
+      "ngram": "登录",
+      "count": 2
+    },
+    {
+      "ngram": "订单",
+      "count": 2
+    },
+    {
+      "ngram": "结算",
+      "count": 2
+    },
+    {
+      "ngram": "下周",
+      "count": 2
+    }
+  ],
+  "perMinute": [
+    {
+      "minute": 0,
+      "han": 88.2,
+      "speakingSeconds": 50.7,
+      "pauseCount": 1,
+      "segmentCount": 4,
+      "hanPerMin": 88.2
+    },
+    {
+      "minute": 1,
+      "han": 74.8,
+      "speakingSeconds": 50.8,
+      "pauseCount": 0,
+      "segmentCount": 3,
+      "hanPerMin": 74.8
+    }
+  ]
+}

@@ -1,0 +1,48 @@
+{
+  "schemaVersion": 1,
+  "basis": "候选来自各切片子代理逐片错字清点（content/_terms/slice-*.json）；通用规则见 scripts/build_corrections.py 头部注释，学科裁决见 content/corrections-decisions.json",
+  "decisionRules": {
+    "default": "错串不是 jieba 词典词 → 采纳；是词典词 → 拒绝（除非人工在 decisions 里逐条确认）",
+    "dictionaryAvailable": true,
+    "dictionaryNote": "jieba 词典可用",
+    "decisionsSource": "content/corrections-decisions.json",
+    "manualApprovedHighRisk": [],
+    "manualRejected": [
+      "评审"
+    ],
+    "overrides": {
+      "记要": "纪要"
+    },
+    "letterNoise": [],
+    "phraseRuleSource": []
+  },
+  "decisionsUnused": {},
+  "approvedCount": 1,
+  "approvedOccurrences": 1,
+  "phraseRuleCount": 0,
+  "phraseOccurrences": 0,
+  "rejectedCount": 1,
+  "rejectedOccurrences": 1,
+  "needsReviewCount": 0,
+  "needsReviewOccurrences": 0,
+  "approved": [
+    {
+      "wrong": "记要",
+      "right": "纪要",
+      "occurrences": 1,
+      "votes": 1,
+      "basis": "人工裁决（decisions.override）：示例：override 会覆盖子代理给的目标串（这里恰好一致）"
+    }
+  ],
+  "phraseRules": [],
+  "rejected": [
+    {
+      "wrong": "评审",
+      "candidateRight": "评议",
+      "occurrences": 1,
+      "votes": 1,
+      "reason": "示例：评审在本文里就是正确用词，明确拒绝替换为「评议」"
+    }
+  ],
+  "needsReview": []
+}

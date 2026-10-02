@@ -1,0 +1,17 @@
+{
+  "name": "generic",
+  "description": "通用域：不假设学科。术语表为空，屏幕关键词只保留最通用的页面/聊天特征。换学科时请新建一个 profile，不要改这个。",
+  "labels": {
+    "termCategories": []
+  },
+  "terms": {},
+  "stopwordsExtra": [],
+  "outlineTags": ["知识点", "方法", "例题", "答疑", "互动", "事务"],
+  "outlineKinds": ["导学", "新授", "例题", "答疑", "互动", "收尾", "其他"],
+  "screen": {
+    "dashboardWords": ["问卷", "统计", "结果", "占比", "比例", "截至", "数据", "报告", "%"],
+    "chatPatterns": ["\\[\\d+\\s*条\\]", "有人@我", "@[0-9A-Za-z\\u4e00-\\u9fff]{2,}"],
+    "chromeWords": ["问AI", "搜索", "Microsoft", "Edge", "Chrome"],
+    "topicLabelPattern": "[\\u4e00-\\u9fff]{2,12}(?:一页纸|讲义|材料|知识点|解题方法)"
+  }
+}

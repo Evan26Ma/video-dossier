@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "_comment": "人工裁决示例：reject 优先于词典兜底；override 用来修正子代理给错的目标串；phraseRules 用更长上下文处理真词。",
+  "reject": [
+    { "wrong": "评审", "reason": "示例：评审在本文里就是正确用词，明确拒绝替换为「评议」" }
+  ],
+  "override": [
+    { "wrong": "记要", "right": "纪要", "reason": "示例：override 会覆盖子代理给的目标串（这里恰好一致）" }
+  ],
+  "phraseRules": [],
+  "letterNoise": []
+}

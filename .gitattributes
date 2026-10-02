@@ -1,0 +1,10 @@
+# 统一换行：仓库里一律 LF（脚本跨平台；Windows 上 checkout 也不会变 CRLF）
+* text=auto eol=lf
+
+# 二进制文件不做行尾转换
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.pdf binary
+*.m4a binary
+*.mp4 binary

@@ -1,0 +1,2 @@
+{"status": "applied", "wrong": "记要", "right": "纪要", "kind": "word", "guard": null, "occurrences": 1}
+{"status": "rejected", "wrong": "评审", "candidateRight": "评议", "occurrences": 1, "reason": "示例：评审在本文里就是正确用词，明确拒绝替换为「评议」"}

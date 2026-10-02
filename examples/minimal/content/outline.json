@@ -1,0 +1,196 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-10-03T07:24:33+08:00",
+  "runName": "minimal-example",
+  "bvid": null,
+  "page": 1,
+  "profile": "generic",
+  "basis": "raw ASR（未纠错）为主；slideExcerpt 为屏幕 OCR（启发式分类，仅辅助）",
+  "durationSeconds": 120.0,
+  "mergeRule": {
+    "windowSeconds": 120.0,
+    "overlapSeconds": 30.0,
+    "configWindowSeconds": 120.0,
+    "configOverlapSeconds": 30.0,
+    "windowSource": "content/_slices/index.json",
+    "coreRule": "slice-01 核心区 [0,end]；其余 [start+30,end]，重叠区条目只归一片，天然去重",
+    "pointDedupe": "(四舍五入到 2s 的起点, 标题前 8 字) 全局唯一",
+    "themeDrop": "核心区内无条目的主题整条丢弃",
+    "boundaryRule": "边界取该条目第一句话所在行的行首秒数（宁晚不早）",
+    "tagWhitelist": [
+      "知识点",
+      "方法",
+      "例题",
+      "答疑",
+      "互动",
+      "事务"
+    ],
+    "kindWhitelist": [
+      "导学",
+      "新授",
+      "例题",
+      "答疑",
+      "互动",
+      "收尾",
+      "其他"
+    ],
+    "schemaTolerance": {
+      "pointsNormalized": 0,
+      "themesNeedingEnd": 0,
+      "pointsWithThemeTags": 0,
+      "invalidKind": 0,
+      "missingExcerpt": 0
+    },
+    "sliceParsedCounts": {
+      "slice-01": {
+        "parsed": 6,
+        "inCore": 6
+      }
+    }
+  },
+  "stats": {
+    "themeCount": 2,
+    "pointCount": 6,
+    "droppedDuplicatePoints": 0,
+    "kindSeconds": {
+      "导学": 29.8,
+      "新授": 72.4
+    },
+    "tiledCoverageSeconds": 102.2,
+    "tiledCoverageRatio": 0.8517,
+    "tiledCoverageNote": "主题按「下一个主题起点」铺满时间轴后的并集占比；子代理未提供 endSeconds，故这是口径值而非实测值。",
+    "annotatedSpanSeconds": 85.0,
+    "annotatedSpanRatio": 0.7083,
+    "firstPointSeconds": 6.2,
+    "lastPointSeconds": 91.2,
+    "silentHeadSeconds": 6.2,
+    "pointIntervalSeconds": {
+      "mean": 17.0,
+      "median": 17.2,
+      "max": 19.2
+    },
+    "gapAlertThresholdSeconds": 120.0,
+    "gapAlertCount": 0,
+    "gapAlerts": [],
+    "pointsWithSlide": 0,
+    "pointsWithSlideRatio": 0.0,
+    "windowSummaries": {
+      "slice-01": "一场产品评审会的前两分钟：先圈定评审范围，再逐个过登录、订单、结算三个模块的改动与风险，最后交代文档补齐的截止时间。"
+    }
+  },
+  "themes": [
+    {
+      "id": "T01",
+      "title": "评审范围与登录模块",
+      "kind": "导学",
+      "summary": "先说明本次只看三个模块，再交代登录模块的会议纪要已发出、需要未读的人补齐。",
+      "startSeconds": 6.2,
+      "endSeconds": 36.0,
+      "startText": "00:00:06",
+      "endText": "00:00:36",
+      "durationSeconds": 29.8,
+      "pointCount": 2,
+      "fromSlice": "slice-01",
+      "points": [
+        {
+          "startSeconds": 6.2,
+          "startText": "00:00:06",
+          "title": "本次评审范围只有登录、订单、结算三个模块",
+          "excerpt": "先说一下这次评审的范围，我们只看三个模块，登录、订单和结算。",
+          "tags": [
+            "事务"
+          ],
+          "source": "voice",
+          "slideExcerpt": "",
+          "slidePageIdx": null,
+          "slideTimeText": null
+        },
+        {
+          "startSeconds": 18.9,
+          "startText": "00:00:18",
+          "title": "登录模块会议纪要已发群，要求未读者补齐",
+          "excerpt": "登录模块的记要已经发到群里了，谁还没看麻烦补一下。",
+          "tags": [
+            "事务"
+          ],
+          "source": "voice",
+          "slideExcerpt": "",
+          "slidePageIdx": null,
+          "slideTimeText": null
+        }
+      ]
+    },
+    {
+      "id": "T02",
+      "title": "订单与结算模块的改动与风险",
+      "kind": "新授",
+      "summary": "订单模块改了两处（重复下单校验、超时取消），其中重复下单用幂等键彻底修掉；结算模块因为涉及资金风险，单独排了一轮回归测试；最后给出文档补齐的截止时间。",
+      "startSeconds": 36.0,
+      "endSeconds": 108.4,
+      "startText": "00:00:36",
+      "endText": "00:01:48",
+      "durationSeconds": 72.4,
+      "pointCount": 4,
+      "fromSlice": "slice-01",
+      "points": [
+        {
+          "startSeconds": 36.0,
+          "startText": "00:00:36",
+          "title": "订单模块两处改动：重复下单校验与超时取消",
+          "excerpt": "订单模块这次改了两个地方，一个是重复下单的校验，一个是超时取消。",
+          "tags": [
+            "知识点"
+          ],
+          "source": "voice",
+          "slideExcerpt": "",
+          "slidePageIdx": null,
+          "slideTimeText": null
+        },
+        {
+          "startSeconds": 53.2,
+          "startText": "00:00:53",
+          "title": "重复下单问题用幂等键彻底修掉",
+          "excerpt": "重复下单这个问题上个月就提过，这次算是彻底修掉了，加了幂等键。",
+          "tags": [
+            "知识点",
+            "方法"
+          ],
+          "source": "voice",
+          "slideExcerpt": "",
+          "slidePageIdx": null,
+          "slideTimeText": null
+        },
+        {
+          "startSeconds": 72.4,
+          "startText": "00:01:12",
+          "title": "结算模块涉资金风险，单独排回归测试",
+          "excerpt": "结算模块风险最大，因为它跟钱有关，所以我们单独排了一轮回归测试。",
+          "tags": [
+            "方法"
+          ],
+          "source": "voice",
+          "slideExcerpt": "",
+          "slidePageIdx": null,
+          "slideTimeText": null
+        },
+        {
+          "startSeconds": 91.2,
+          "startText": "00:01:31",
+          "title": "下周前补齐三个模块的文档",
+          "excerpt": "最后一件事，下周之前把这三个模块的文档补齐，我下周统一过一遍。",
+          "tags": [
+            "事务"
+          ],
+          "source": "voice",
+          "slideExcerpt": "",
+          "slidePageIdx": null,
+          "slideTimeText": null
+        }
+      ]
+    }
+  ],
+  "problems": [],
+  "notes": [
+    "画面层已关闭（slides.enabled=false），slideExcerpt 全为空"
+  ]
+}

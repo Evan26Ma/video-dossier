@@ -1,0 +1,17 @@
+{
+  "transcript": "transcripts/example.json",
+  "profile": "generic",
+  "duration": 120.0,
+  "windowSeconds": 120.0,
+  "overlapSeconds": 30.0,
+  "slices": [
+    {
+      "id": "slice-01",
+      "file": "content/_slices/slice-01.md",
+      "startSeconds": 0.0,
+      "endSeconds": 120.0,
+      "lineCount": 6,
+      "charCount": 181
+    }
+  ]
+}

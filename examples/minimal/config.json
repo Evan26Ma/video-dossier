@@ -1,0 +1,55 @@
+{
+  "_comment": "最小示例：演示「非媒体阶段」怎么跑通（切片/大纲合并/纠错/统计/校验/PDF）。数据是合成的，不含任何真实内容。ASR 与抽帧 OCR 需要真实媒体，见本目录 README。",
+  "name": "minimal-example",
+  "video": {
+    "title": "最小示例（合成数据）",
+    "author": "",
+    "subject": "示例：产品评审会",
+    "profile": "generic"
+  },
+  "media": {
+    "kind": "local",
+    "bvid": null,
+    "page": 1,
+    "localAudio": null,
+    "localVideo": null,
+    "transcript": "transcripts/example.json"
+  },
+  "outline": {
+    "windowSeconds": 120,
+    "overlapSeconds": 30,
+    "gapAlertSeconds": 120
+  },
+  "slides": {
+    "enabled": false
+  },
+  "stats": {
+    "pauseThresholdSeconds": 1.5,
+    "minWordLength": 2,
+    "topWordCount": 100,
+    "ngramMin": 2,
+    "ngramMax": 4,
+    "ngramMinCount": 2
+  },
+  "pdf": {
+    "theme": "warm-academic",
+    "toc": 0
+  },
+  "verify": {
+    "_comment": "阈值都可覆盖。示例只有 120 秒合成数据，所以把「长视频才适用」的下限调低了：体量下限、覆盖率下限都按 2 分钟片段给。",
+    "minFigures": 4,
+    "requireCorrections": true,
+    "minTranscriptChars": 300,
+    "minTiledCoverage": 0.80,
+    "minAnnotatedSpan": 0.65
+  },
+  "paths": {
+    "audio": "audio",
+    "video": "video",
+    "transcripts": "transcripts",
+    "content": "content",
+    "stats": "stats",
+    "slides": "slides",
+    "tmp": "tmp"
+  }
+}

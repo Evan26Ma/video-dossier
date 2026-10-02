@@ -1,0 +1,20 @@
+schema: skill-manifest/v1
+id: video-dossier
+version: 1.0.0
+runtime: skill-runtime/v1
+context:
+  preferences:
+    namespace: video_dossier
+    fields:
+    - path: user.language
+      required: false
+      question: 报告与口径文档用哪种语言输出？（默认中文）
+    - path: asr.model
+      required: false
+      question: 本地 Whisper 模型目录或模型名是什么？（例如 models/faster-whisper-small 或 small）
+    - path: video.profile
+      required: false
+      question: 这次分析用哪个领域配置？（profiles/ 下的名字，例如 generic、politics-kaoyan）
+  interaction:
+    ask_missing: false
+    max_questions: 2

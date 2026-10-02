@@ -1,0 +1,29 @@
+{
+  "generatedAt": "2026-10-03T07:23:33+08:00",
+  "runName": "minimal-example",
+  "transcriptSource": "transcripts/example.json",
+  "tableSource": "content/corrections-reviewed.json",
+  "rawChars": 181,
+  "cleanChars": 181,
+  "charDelta": 0,
+  "charDeltaExpected": 0,
+  "lengthConserved": true,
+  "replacements": 1,
+  "appliedRuleCount": 1,
+  "approvedRuleCount": 1,
+  "rejectedCount": 1,
+  "rejectedOccurrences": 1,
+  "needsReviewCount": 0,
+  "topApplied": [
+    {
+      "wrong": "记要",
+      "right": "纪要",
+      "occurrences": 1
+    }
+  ],
+  "notes": [
+    "长度守恒校验：Σ(新串长-旧串长)×命中次数 必须等于 clean 与 raw 的总长度差；不相等即说明发生了预期外改写。",
+    "替换为纯字符串操作（含 notFollowedBy 护栏），不含模型改写，故 clean 稿可完全复现。",
+    "统计一律使用 raw；clean 稿仅供人读。"
+  ]
+}

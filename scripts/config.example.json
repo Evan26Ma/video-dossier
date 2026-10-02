@@ -1,0 +1,98 @@
+{
+  "_comment": "复制成 config.json 后修改。所有相对路径都相对本文件所在目录（= 本次分析的产物根目录）。",
+  "name": "my-video-run",
+  "video": {
+    "title": "示例视频",
+    "author": "",
+    "subject": "",
+    "profile": "generic"
+  },
+  "media": {
+    "_help": "kind=bilibili 按 BV 号匿名采集+下载；kind=local 只处理本地文件（bvid 留空）",
+    "kind": "bilibili",
+    "bvid": "BVxxxxxxxxxx",
+    "page": 1,
+    "localAudio": null,
+    "localVideo": null,
+    "transcript": null,
+    "_transcriptHelp": "可选：显式指定转写文件（相对 run 根）。留空则按 <bvid>_p<page> / localAudio 的 stem 自动推断"
+  },
+  "comments": {
+    "_help": "默认不采评论（匿名可见性受限）。开了也只取顶层+置顶，不展开楼中楼",
+    "enabled": false,
+    "mode": 3,
+    "pageSize": 20,
+    "maxPages": 12
+  },
+  "asr": {
+    "_modelHelp": "本地模型目录（相对 run 根）或 HuggingFace 模型名，例如 small / medium",
+    "model": "models/faster-whisper-small",
+    "language": "zh",
+    "device": "cuda",
+    "computeType": "float16",
+    "batchSize": 8,
+    "beamSize": 1,
+    "vadFilter": true,
+    "deviceFallback": { "device": "cpu", "computeType": "int8" },
+    "ytdlp": null,
+    "ytdlpArgs": [],
+    "audioFormat": "bestaudio[ext=m4a]/bestaudio",
+    "nvidiaBinDirs": [],
+    "_ytdlpHelp": "ytdlp 留空则用 python -m yt_dlp；nvidiaBinDirs 用于补充 cudnn/cublas 的 DLL 目录（Windows）"
+  },
+  "outline": {
+    "windowSeconds": 600,
+    "overlapSeconds": 150,
+    "gapAlertSeconds": 420
+  },
+  "slides": {
+    "enabled": true,
+    "videoFormat": "30080",
+    "pass1EverySeconds": 10,
+    "pass2EverySeconds": 2,
+    "hammingMax": 6,
+    "ocrBucketSeconds": 30,
+    "ocrMinScore": 0.6,
+    "_videoFormatHelp": "B 站模式的 yt-dlp 格式号：30080=1080P、30064=720P、30032=480P；1080P60 通常要大会员"
+  },
+  "stats": {
+    "pauseThresholdSeconds": 1.5,
+    "minWordLength": 2,
+    "topWordCount": 200,
+    "ngramMin": 2,
+    "ngramMax": 4,
+    "ngramMinCount": 8
+  },
+  "pdf": {
+    "theme": "warm-academic",
+    "toc": 1,
+    "md2pdf": null,
+    "_md2pdfHelp": "留空则自动探测 lov-any2pdf 技能里的 scripts/md2pdf.py（也可用环境变量 VD_MD2PDF）"
+  },
+  "verify": {
+    "_help": "全部可省略，省略即用脚本顶部默认值。短视频/小样本要相应调低下限",
+    "minTiledCoverage": 0.9,
+    "minAnnotatedSpan": 0.85,
+    "maxPointIntervalMedianSeconds": 120,
+    "minPointsWithSlideRatio": 0.3,
+    "minFigures": 4,
+    "durationTolerance": 0.01,
+    "danmakuExpected": 0,
+    "minSliceWithCoreRatio": 0.9,
+    "minTranscriptChars": 1000,
+    "minDashboardTextRatio": 0,
+    "checkSliceCountFromWindow": true,
+    "requireCorrections": true,
+    "repoPath": null,
+    "_repoHelp": "填了才做「仓库零改动」检查（判据：当前脏文件集合 ⊆ 开工基线集合）"
+  },
+  "paths": {
+    "audio": "audio",
+    "video": "video",
+    "transcripts": "transcripts",
+    "content": "content",
+    "stats": "stats",
+    "slides": "slides",
+    "tmp": "tmp"
+  }
+}
